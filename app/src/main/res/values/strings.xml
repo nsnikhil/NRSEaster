@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">NRS Easter</string>
+    <string name="myLoading">Just a sec…</string>
+    <string name="myPassword">Password</string>
+    <string name="myPasswordSubmit">Submit</string>
+    <string name="ImageDescriptionError">Error</string>
+    <string name="ImageDescriptionBackground">Background</string>
+    <string name="myNrs">NRS DEVS</string>
+    <string name="myName">theGoodGuy</string>
+
+
+    <!-- Urls-->
+    <string name="urlServer" translatable="false">http://ec2-35-154-208-1.ap-south-1.compute.amazonaws.com/</string>
+    <string name="urlMineQueryAll" translatable="false">booktrade/mineQueryAll.php</string>
+    <!-- -->
+
+</resources>
