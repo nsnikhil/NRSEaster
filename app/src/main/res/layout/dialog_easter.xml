@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/verticalLinearLayout"
-    tools:context="com.nrs.nsnik.nrseaster.EasterActivity">
+    tools:context="com.nrs.nsnik.nrseaster.EasterDialog">
 
 
     <LinearLayout

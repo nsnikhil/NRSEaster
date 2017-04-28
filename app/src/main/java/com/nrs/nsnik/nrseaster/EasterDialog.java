@@ -11,9 +11,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,7 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public class EasterActivity extends AppCompatActivity {
+public class EasterDialog extends DialogFragment {
 
 
     private static final int[] m1 = {116, 104, 101, 71, 111, 111, 100, 71, 117, 121};
@@ -55,11 +57,11 @@ public class EasterActivity extends AppCompatActivity {
     private int mCounter = 1;
 
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_easter);
-        initialize();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_easter, container, false);
+        initialize(v);
         mSubmit.setVisibility(View.GONE);
         mPasswordText.setVisibility(View.GONE);
         String host = getResources().getString(R.string.urlServer);
@@ -71,22 +73,24 @@ public class EasterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            mSubmit.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+            mSubmit.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
         }
+        return v;
     }
 
-    private void initialize() {
-        mNrsImage = (ImageView) findViewById(R.id.myNrsImage);
-        mMyImage = (ImageView) findViewById(R.id.myPImage);
-        mNrsText = (TextView) findViewById(R.id.myNrsText);
-        mMyText = (TextView) findViewById(R.id.myPTEXT);
-        mNrsImageProgress = (ProgressBar) findViewById(R.id.myNrsImageProgress);
-        mMyImageProgress = (ProgressBar) findViewById(R.id.myPImageProgress);
-        mImageContainer = (LinearLayout) findViewById(R.id.myImageContainer);
-        mPasswordContainer = (LinearLayout) findViewById(R.id.myPasswordContainer);
-        mSubmit = (Button) findViewById(R.id.myPasswordGo);
-        mPasswordText = (EditText) findViewById(R.id.myPasswordText);
-        mLoadingText = (TextView) findViewById(R.id.myPasswordLoadingText);
+
+    private void initialize(View v) {
+        mNrsImage = (ImageView) v.findViewById(R.id.myNrsImage);
+        mMyImage = (ImageView) v.findViewById(R.id.myPImage);
+        mNrsText = (TextView) v.findViewById(R.id.myNrsText);
+        mMyText = (TextView) v.findViewById(R.id.myPTEXT);
+        mNrsImageProgress = (ProgressBar) v.findViewById(R.id.myNrsImageProgress);
+        mMyImageProgress = (ProgressBar) v.findViewById(R.id.myPImageProgress);
+        mImageContainer = (LinearLayout) v.findViewById(R.id.myImageContainer);
+        mPasswordContainer = (LinearLayout) v.findViewById(R.id.myPasswordContainer);
+        mSubmit = (Button) v.findViewById(R.id.myPasswordGo);
+        mPasswordText = (EditText) v.findViewById(R.id.myPasswordText);
+        mLoadingText = (TextView) v.findViewById(R.id.myPasswordLoadingText);
     }
 
     private InputStream getValues(URL url) {
@@ -189,7 +193,7 @@ public class EasterActivity extends AppCompatActivity {
                             mPasswordText.setError("Enter the password to see the magic");
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -197,14 +201,14 @@ public class EasterActivity extends AppCompatActivity {
     }
 
     private boolean checkConnection() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void setImages() {
-        mNrsImageProgress.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), PorterDuff.Mode.MULTIPLY);
-        mMyImageProgress.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), PorterDuff.Mode.MULTIPLY);
+        mNrsImageProgress.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.white), PorterDuff.Mode.MULTIPLY);
+        mMyImageProgress.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.white), PorterDuff.Mode.MULTIPLY);
         mNrsImage.setBackgroundColor(Color.parseColor("#000000"));
         mMyImage.setBackgroundColor(Color.parseColor("#000000"));
         GetImagesAsync getImagesAsync = new GetImagesAsync(mNrsImage, mNrsImageProgress);
